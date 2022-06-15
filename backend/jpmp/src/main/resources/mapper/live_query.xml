@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jpmp.api.dao.LiveDao">
+
+    <insert  id="register" parameterType="com.jpmp.api.dto.request.live.LiveDto">
+        insert into live ( user_id, nickname, cf_key, cf_id, cf_url, room_name, startprice, runtime, nft_id, starttime)
+        values (  #{userId}, #{nickname}, #{cfKey}, #{cfId} , #{cfUrl} , #{roomName} , #{startprice} ,#{runtime}, #{nftId}, #{starttime} )
+        <selectKey keyProperty="roomId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getLiveList" resultType="com.jpmp.api.dto.response.live.LiveNftResDto">
+        SELECT l.room_id, l.user_id, l.nickname, l.cf_key, l.cf_id, l.cf_url, l.room_name, l.startprice, l.runtime, l.finish, l.nft_id, l.starttime, n.id, n.img_url, n.nft_name, n.price, n.realization_status, n.sele_status, n.enterprise, n.owner
+        FROM jpmp.live l join nft n on (l.nft_id = n.nft_id)
+    </select>
+
+    <update id="finishLive" parameterType="int">
+        update live
+        set finish = 1
+        where room_id = #{roomId}
+    </update>
+
+    <select id="getLive" parameterType="int" resultType="com.jpmp.api.dto.response.live.LiveNftResDto">
+        SELECT l.room_id, l.user_id, l.nickname, l.cf_key, l.cf_id, l.cf_url, l.room_name, l.startprice, l.runtime, l.finish, l.nft_id, l.starttime, n.id, n.img_url, n.nft_name, n.price, n.realization_status, n.sele_status, n.enterprise, n.owner
+        FROM jpmp.live l join nft n on (l.nft_id = n.nft_id)
+         and room_id = #{roomId}
+    </select>
+
+    <select id="getmaxCost" parameterType="int" resultType="int">
+        select IFNULL((select max(cost) from live_auction where room_id = #{roomId}), 0)
+    </select>
+
+</mapper>

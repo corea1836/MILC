@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jpmp.api.dao.ChatDao">
+
+    <insert  id="addCost" parameterType="com.jpmp.api.dto.response.chat.ChatResDto">
+        insert into live_auction ( room_id, sender_name, cost )
+        values (  #{roomId}, #{senderName}, #{cost} )
+    </insert>
+
+    <select id="maxCost" parameterType="int" resultType="com.jpmp.api.dto.response.chat.ChatResDto">
+        select *
+          from live_auction
+         where cost = (select max(cost) from live_auction where room_id = #{roomId})
+           and room_id = #{roomId}
+         LIMIT 1
+    </select>
+
+</mapper>

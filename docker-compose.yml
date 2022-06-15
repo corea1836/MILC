@@ -1,0 +1,16 @@
+# 프로젝트 Root 폴더
+# 프로젝트Root/docker-compose.yml
+version: '3.2'
+
+services:
+   backend:
+    image: backend-spring
+    build:
+      context: backend/jpmp/
+      dockerfile: dockerfile
+    ports:
+      - "8080:8080"  
+    volumes:
+      - /home/ubuntu/docker-volume/ssl2:/root
+    container_name: "backend"
+  

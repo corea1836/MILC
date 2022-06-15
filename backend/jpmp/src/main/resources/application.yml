@@ -1,0 +1,44 @@
+spring:
+  redis:
+    host: j6e206.p.ssafy.io
+    port: 6379
+  datasource:
+    #    url: jdbc:mysql://localhost:3306/jpmp?serverTimezone=UTC&characterEncoding=UTF-8
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    hikari:
+    #      username: root
+    #      password: admin
+    url: jdbc:mysql://j6e206.p.ssafy.io:3306/jpmp?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name : com.mysql.cj.jdbc.Driver
+    hikari:
+      username: SSAFY
+      password: SSAFY
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        # show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        default_batch_fetch_size: 100
+    database: mysql
+  devtools:
+    livereload:
+      enabled: true
+jwt:
+  secret: dyAeHubOOc8KaOfYB6XEQoEj1QzRlVgtjNL8PYs1A1tymZvvqkcEU7L1imkKHeDa
+  expiration: 1296000000 # unit is ms. 15 * 24 * 60 * 60 * 1000 = 15days
+
+server:
+  port: 8080
+  ssl :
+    enabled : true
+    key-store-type : PKCS12
+    key-store : /root/key.p12
+    key-store-password : ssafy
+    #인증서 비밀번호
+
+mybatis:
+  config-location : classpath:/config/mybatis-config.xml
